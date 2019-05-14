@@ -18,7 +18,7 @@ resource "google_compute_instance" "free-kittens" {
   }
  }
 
- metadata_startup_script = "sudo yum -q -y update; sudo yum install epel-release; sudo yum install nginx"
+ metadata_startup_script = "sudo yum -q -y update; sudo yum -q -y install epel-release; sudo yum -q -y install nginx"
 
  network_interface {
   network = "default"
