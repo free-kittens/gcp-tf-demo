@@ -11,7 +11,7 @@ resource "google_compute_instance" "splunk-bigredbutton-idx" {
  name = "splunk-bigredbutton-vm-${random_id.instance_id.hex}"
  machine_type = "f1-micro"
  zone = "europe-west1-b"
- tags = "splunk-bigredbutton"
+ tags = ["splunk-bigredbutton"]
 
  boot_disk {
   initialize_params {
@@ -33,7 +33,7 @@ resource "google_compute_instance" "splunk-bigredbutton-hf" {
  name = "splunk-bigredbutton-vm-${random_id.instance_id.hex}"
  machine_type = "f1-micro"
  zone = "europe-west1-b"
- tags = "splunk-bigredbutton"
+ tags = ["splunk-bigredbutton"]
 
  boot_disk {
   initialize_params {
@@ -58,6 +58,6 @@ resource "google_compute_instance" "splunk-bigredbutton-hf" {
 output "idx-ip" {
  value = "${google_compute_instance.splunk-bigredbutton-idx.network_interface.0.access_config.0.nat_ip}"
  }
-ouput "hf-ip" {
+output "hf-ip" {
 value = "${google_compute_instance.splunk-bigredbutton-hf.network_interface.0.access_config.0.nat_ip}"
 }
