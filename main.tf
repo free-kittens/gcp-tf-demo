@@ -7,10 +7,11 @@ resource "random_id" "instance_id" {
  byte_length = 8
 }
 
-resource "google_compute_instance" "free-kittens" {
- name = "free-kittens-vm-${random_id.instance_id.hex}"
+resource "google_compute_instance" "splunk-bigredbutton-idx" {
+ name = "splunk-bigredbutton-vm-${random_id.instance_id.hex}"
  machine_type = "f1-micro"
  zone = "europe-west1-b"
+ labels = "splunk-bigredbutton"
 
  boot_disk {
   initialize_params {
@@ -27,25 +28,51 @@ resource "google_compute_instance" "free-kittens" {
   }
  }
 
- metadata {
-  sshKeys = "panther:${file("id_ed25519.pub")}"
+// metadata {
+//  sshKeys = "panther:${file("id_ed25519.pub")}"
+// }
+}
+
+resource "google_compute_instance" "splunk-bigredbutton-hf" {
+ name = "splunk-bigredbutton-vm-${random_id.instance_id.hex}"
+ machine_type = "f1-micro"
+ zone = "europe-west1-b"
+ labels = "splunk-bigredbutton"
+
+ boot_disk {
+  initialize_params {
+   image = "gce-uefi-images/centos-7"
+  }
  }
+
+ metadata_startup_script = "sudo yum -q -y update"
+
+ network_interface {
+  network = "default"
+
+  access_config {
+  }
+ }
+
+ //metadata {
+  //sshKeys = "panther:${file("id_ed25519.pub")}"
+// }
 }
 
+#resource  "google_compute_firewall" "default" {
+ #name    = "splunk-firewall"
+ #network = "default"
 
-resource  "google_compute_firewall" "default" {
- name    = "splunk-firewall"
- network = "default"
-
-allow {
- protocol = "tcp"
- ports = ["8000","8089","9997"]
-}
-allow {
- protocol = "icmp"
-}
-}
+##allow {
+ #protocol = "tcp"
+ #ports = ["8000","8089","9997"]
+###}
+#allow {
+ #protocol = "icmp"
+#}
+#}
 
 output "ip" {
- value = "${google_compute_instance.free-kittens.network_interface.0.access_config.0.nat_ip}"
+ value = "${google_compute_instance.splunk-bigredbutton-idx.network_interface.0.access_config.0.nat_ip}"
+ value = "${google_compute_instance.splunk-bigredbutton-hf.network_interface.0.access_config.0.nat_ip}"
 }
