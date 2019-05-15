@@ -18,7 +18,7 @@ resource "google_compute_instance" "free-kittens" {
   }
  }
 
- metadata_startup_script = "sudo yum -q -y update; sudo yum -q -y install epel-release; sudo yum -q -y install nginx; sudo systemctl start nginx"
+ metadata_startup_script = "sudo yum -q -y update"
 
  network_interface {
   network = "default"
@@ -34,12 +34,12 @@ resource "google_compute_instance" "free-kittens" {
 
 
 resource  "google_compute_firewall" "default" {
- name    = "nginx-firewall"
+ name    = "splunk-firewall"
  network = "default"
 
 allow {
  protocol = "tcp"
- ports = ["80","443"]
+ ports = ["8000","8089","9997"]
 }
 allow {
  protocol = "icmp"
