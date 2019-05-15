@@ -1,5 +1,5 @@
 provider "google" {
- project     = "possible-jetty-239813"
+ project     = "ikea-dt-splunkrix-test"
  region      = "europe-west1"
 }
 
