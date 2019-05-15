@@ -27,10 +27,6 @@ resource "google_compute_instance" "splunk-bigredbutton-idx" {
   access_config {
   }
  }
-
-// metadata {
-//  sshKeys = "panther:${file("id_ed25519.pub")}"
-// }
 }
 
 resource "google_compute_instance" "splunk-bigredbutton-hf" {
@@ -59,20 +55,9 @@ resource "google_compute_instance" "splunk-bigredbutton-hf" {
 // }
 }
 
-#resource  "google_compute_firewall" "default" {
- #name    = "splunk-firewall"
- #network = "default"
-
-##allow {
- #protocol = "tcp"
- #ports = ["8000","8089","9997"]
-###}
-#allow {
- #protocol = "icmp"
-#}
-#}
-
-output "ip" {
+output "idx-ip" {
  value = "${google_compute_instance.splunk-bigredbutton-idx.network_interface.0.access_config.0.nat_ip}"
- value = "${google_compute_instance.splunk-bigredbutton-hf.network_interface.0.access_config.0.nat_ip}"
+ }
+ouput "hf-ip" {
+value = "${google_compute_instance.splunk-bigredbutton-hf.network_interface.0.access_config.0.nat_ip}"
 }
